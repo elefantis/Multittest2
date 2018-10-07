@@ -11,6 +11,12 @@ function InGame( game ) {
         } );
     } );
 
+    socket.on( "playerData", function( data ) { 
+        console.log(data);
+        console.log("Soy el player: ", data.id );
+        console.log("Id de conexión es: ", data.uid );
+    })
+
     this.update = function() {
 
     }
