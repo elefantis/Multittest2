@@ -37,5 +37,6 @@ function update( frame ){
 }
 
 function render( ) {
+  ctx.clearRect( 0, 0, WIDTH, HEIGHT );
   MyGame.render();
 }
