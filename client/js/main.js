@@ -1,27 +1,41 @@
 var socket = io.connect('http://localhost:3000', { 'forceNew': true });
+const canvas = document.getElementById( "canvas" )
+const ctx = canvas.getContext( "2d" )
+const WIDTH = 800;
+const HEIGHT = 600;
+const MyGame = 
+{
+  state: new InGame(this),
+  update: function( ) {
+    this.state.update( );
+  },
+  render: function( ) {
+    this.state.render();
+  }
+};
 
-socket.on('messages', function(data) {
-  console.log(data);
-  render(data);
-})
+// Inicializa el lienzo
+canvas.width = WIDTH;
+canvas.height = HEIGHT;
+canvas.style.backgroundColor = "black";
+ctx.fillStyle = "white";
+ctx.strokeStyle = "white";
 
-function render (data) {
-  var html = data.map(function(elem, index) {
-    return(`<div>
-              <strong>${elem.author}</strong>:
-              <em>${elem.text}</em>
-            </div>`);
-  }).join(" ");
+// Inicia el ciclo del juego
+;( function ( ) {
+  function main( tFrame ) {
+      MyGame.stopMain = window.requestAnimationFrame( main );
+      // Llama al método de actualización, indica en que frame esta
+      update( tFrame ); 
+      render();
+  }
+  main(); // Comienza el ciclo
+} )( );
 
-  document.getElementById('messages').innerHTML = html;
+function update( frame ){
+  MyGame.update();
 }
 
-function addMessage(e) {
-  var message = {
-    author: document.getElementById('username').value,
-    text: document.getElementById('texto').value
-  };
-
-  socket.emit('new-message', message);
-  return false;
+function render( ) {
+  MyGame.render();
 }

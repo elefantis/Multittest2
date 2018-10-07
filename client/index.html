@@ -2,18 +2,13 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>My Aplicación con Sockets</title>
-  <script src="socket.io-client/dist/socket.io.js"></script>
-  <script src="js/main.js"></script>
+  <title>Juego Multiplayer</title>
 </head>
 <body>
-  <h1>My App</h1>
-  <div id="messages"></div>
-  <br/>
-  <form onsubmit="return addMessage(this)">
-    <input type="text" id="username" placeholder="Tu Nombre" >
-    <input type="text" id="texto" placeholder="Cuéntanos algo...">
-    <input type="submit" value="Enviar!">
-  </form>
+  <canvas id="canvas"></canvas>
+  <script src="socket.io-client/dist/socket.io.js"></script>
+  <script src="js/states/InGame.js"></script>
+  <script src="js/entities/Tank.js"></script>
+  <script src="js/main.js"></script>
 </body>
 </html>
