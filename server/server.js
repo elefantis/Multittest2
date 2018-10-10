@@ -9,16 +9,17 @@ const Tank = require( "./gameServer/Tank" );
 const MAX_PLAYERS = 4;
 var id = 0;
 var players = [  
-  new Tank( -1, 0),
-  new Tank( -1, 1),
-  new Tank( -1, 2),
-  new Tank( -1, 3)
+  new Tank( -1, 0 ),
+  new Tank( -1, 1 ),
+  new Tank( -1, 2 ),
+  new Tank( -1, 3 )
 ];
 
 app.use( express.static( "public" ) );
 
 // Conecta un cliente al servidor
 io.on( "connection", function( socket ) {
+  let newId = -1;
   // Se conecta un player que quiere jugar
   socket.on( "connectPlayer", function( data ) {
     // Asigna id si no la tiene
@@ -26,6 +27,7 @@ io.on( "connection", function( socket ) {
       for( let i in players ) {
         // Asigna un player al jugador
         if( players[ i ].asigned === false ) {
+          newId = players[ i ].id;
           socket.emit( "playerData", new Tank( socket.id, players[ i ].id ) );
           players[ i ].uid = socket.id;
           players[ i ].asigned = true;
@@ -43,16 +45,23 @@ io.on( "connection", function( socket ) {
         }
       }
     }
-
-    // Envia al cliente solo los conectados
-    let connectedPlayers = players.filter( ( player ) => {
-      return player.inGame;
-    } );
-    console.log( "Alguien se ha conectado al juego con id: " + socket.id) ;
-    io.emit("tanks", connectedPlayers );
-    console.log( connectedPlayers )
+    let datax = [];
+    // Busca solo a los players conectados
+    for( let i in players ) {
+      if( players[i].inGame == true) {
+        datax.push( players[i] );
+      }
+    }
+    console.log( "Alguien se ha conectado al juego con id: " + socket.id );
+    io.emit( "tanks", datax );
+    console.log( datax );
   } )
-  
+
+  socket.on( "movePlayer", ( data ) => {
+    players[ data.id ].x = data.x;
+    players[ data.id ].y = data.y;
+    io.emit("moveTanks", data );
+  } );
 
   // Saca al player que se ha desconectado
   socket.on("disconnect", ( reason ) => {
@@ -71,13 +80,21 @@ io.on( "connection", function( socket ) {
       players[idTank].inGame = false;
     }
 
-    // Envia al cliente solo los conectados
-    let connectedPlayers = players.filter( ( player ) => {
-      return player.inGame;
-    } );
+    
+
+    let datax = [];
+    // Busca solo a los players conectados
+    for( let i in players ) {
+      if( players[i].inGame == true) {
+        datax.push( players[i] );
+      }
+    }
+
     console.log("alguien se ha desconectado, Jugadores online:");
-    console.log(connectedPlayers)
-    io.emit("tanks", connectedPlayers );
+    console.log( datax )
+
+    io.emit( "tanks", datax );
+    console.log( datax );
   });
 });
 
