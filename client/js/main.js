@@ -4,7 +4,6 @@ const ctx = canvas.getContext( "2d" )
 const WIDTH = 1024;
 const HEIGHT = 600;
 const animationManager = new AnimationManager( );
-
 const MyGame = 
 {
   state: new InGame(this),
