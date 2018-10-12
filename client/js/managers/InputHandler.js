@@ -1,6 +1,4 @@
 function InputHandler( game ) {
-    console.log( "EL JUEGO: ")
-    console.log( game )
     const ARROW_LEFT = 37, ARROW_UP = 38, ARROW_RIGHT = 39, ARROW_DOWN = 40;
     const A_KEY = 65, W_KEY = 87, D_KEY = 68, S_KEY = 83;
     const LEFT = 0, UP = 1, RIGHT = 2, DOWN = 3;

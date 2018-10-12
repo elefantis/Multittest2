@@ -1,8 +1,10 @@
 var socket = io.connect('http://localhost:3000', { 'forceNew': true });
 const canvas = document.getElementById( "canvas" )
 const ctx = canvas.getContext( "2d" )
-const WIDTH = 800;
+const WIDTH = 1024;
 const HEIGHT = 600;
+const animationManager = new AnimationManager( );
+
 const MyGame = 
 {
   state: new InGame(this),

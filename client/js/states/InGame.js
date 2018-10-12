@@ -4,7 +4,10 @@ function InGame( game ) {
     var directions = [ 0, 0, 0, 0 ];
     var myId = -1;
     const inputHandler = new InputHandler( this );
-    
+    let img = new Image( );
+    img.src = "./assets/Background/Background.png";
+
+
     const colors = [
         "#2d3999", "#9a1ba0", "#f08181", "#ebbb91"
     ];
@@ -30,8 +33,6 @@ function InGame( game ) {
     } )
 
     socket.on( "moveTanks", function( data ) {
-       // console.log( data.directions )
-        console.log("deberia mover al: ", data.id )
         for( let i in gameObjects ) {
             if( gameObjects[ i ].number == data.id ) {
                 gameObjects[ i ].move( data.directions );
@@ -60,11 +61,14 @@ function InGame( game ) {
         directions[ direction ] = 1;
     }
     
-    
-
     this.render = function( ) {
+        ctx.drawImage( img, 0, 0 );
         gameObjects.forEach( ( gameObject ) => {
             gameObject.render( );
         } );
+        img.onload = function() {
+            console.log(img)
+            ctx.drawImage( img, 220, 220 );
+        }
     }
 }
