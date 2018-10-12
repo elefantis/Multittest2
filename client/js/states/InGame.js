@@ -50,6 +50,7 @@ function InGame( ) {
 
     this.render = function( ) {
         ctx.drawImage( img, 0, 0 );
+        
         bullets.forEach( ( gameObject ) => {
             gameObject.render( );
         } );
@@ -60,7 +61,6 @@ function InGame( ) {
             gameObject.render( );
         } );
         img.onload = function() {
-            console.log(img)
             ctx.drawImage( img, 220, 220 );
         }
     }
