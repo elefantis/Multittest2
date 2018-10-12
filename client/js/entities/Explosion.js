@@ -1,4 +1,4 @@
-function Explosion() {
+function Explosion( game ) {
     this.active = false;
     this.x = -10;
     this.y = -10;
@@ -6,6 +6,9 @@ function Explosion() {
     let animationSpeed = 1;
     let animationTime = 0;
     let currentAnimation = "explosion";
+    let finalCountdown = false;
+    let totalFinalTime = 60;
+    let finalTime = totalFinalTime;
 
     this.explode = function( x, y ) {
         this.active = true;
@@ -14,7 +17,14 @@ function Explosion() {
     }
 
     this.update = function() {
-
+        if( finalCountdown  === true ) {
+            finalTime--;
+        }
+        if( finalTime <= 0 ) {
+            finalTime = totalFinalTime;
+            game.restartServer();
+            finalCountdown = false;
+        }
     }
 
     this.render = function() {
@@ -27,6 +37,8 @@ function Explosion() {
             curFrame++;
             if( !animationManager.getFrame( currentAnimation, curFrame ) ) {
                 this.active = false;
+                finalCountdown = true;
+                curFrame = 0;
             }
         }
     }

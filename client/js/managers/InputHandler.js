@@ -1,7 +1,7 @@
 function InputHandler( game ) {
     const ARROW_LEFT = 37, ARROW_UP = 38, ARROW_RIGHT = 39, ARROW_DOWN = 40;
     const A_KEY = 65, W_KEY = 87, D_KEY = 68, S_KEY = 83;
-    const SPACE = 32, Z_KEY = 90;
+    const SPACE = 32, Z_KEY = 90, ESC_KEY = 27;
     const LEFT = 0, UP = 1, RIGHT = 2, DOWN = 3;
     let pressedKeys = [ ];
     let commands = [ ];
@@ -34,6 +34,9 @@ function InputHandler( game ) {
         }
         if( pressedKeys[ SPACE ] || pressedKeys[ Z_KEY ] ) {
            commands.push( new FireCommand( this.game, DOWN ) );
+        }
+        if( pressedKeys[ ESC_KEY ] ) {
+           commands.push( new RestartServerCommand( this.game ) );
         }
         return commands;
     }

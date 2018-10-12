@@ -3,7 +3,7 @@ function InGame( ) {
     var tanks = [ ];
     var bullets = [ ];
     var commands = [ ];
-    var explosions = [ new Explosion( ), new Explosion( ) ]
+    var explosions = [ new Explosion( vm ), new Explosion( vm ) ]
     var directions = [ 0, 0, 0, 0 ];
     var myId = -1;
     const inputHandler = new InputHandler( this );
@@ -41,6 +41,9 @@ function InGame( ) {
             gameObject.update( );
         } );
         bullets.forEach( ( gameObject ) => {
+            gameObject.update( );
+        } );
+        explosions.forEach( ( gameObject ) => {
             gameObject.update( );
         } );
     }
@@ -133,4 +136,7 @@ function InGame( ) {
         }
     }
 
+    this.restartServer = function() {
+        socket.emit( "restart", { id: myId } )
+    }
 }

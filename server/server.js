@@ -55,6 +55,25 @@ io.on( "connection", function( socket ) {
     console.log( datax );
   } )
 
+  socket.on( "restart", function( data ) {
+    console.log( "Jugador: ", data, "ha solicitado resetear el server");
+    let datax = [];
+    // Busca solo a los players conectados
+    for( let i in players ) {
+      if( players[i].inGame == true) {
+        datax.push( players[i] );
+        if( players[i].id == 0 ) {
+          players[i].x = 100;
+          players[i].y = 100;
+        }else {
+          players[i].x = 824;
+          players[i].y = 500;
+        }
+      }
+    }
+    io.emit( "tanks", datax );
+  } );
+
   socket.on( "movePlayer", ( data ) => {
     players[ data.id ].x = data.x;
     players[ data.id ].y = data.y;
