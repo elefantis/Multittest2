@@ -11,8 +11,6 @@ var id = 0;
 var players = [  
   new Tank( -1, 0 ),
   new Tank( -1, 1 ),
-  new Tank( -1, 2 ),
-  new Tank( -1, 3 )
 ];
 
 app.use( express.static( "public" ) );
