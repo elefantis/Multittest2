@@ -18,7 +18,7 @@ function InGame( ) {
 
     // Genera las balas que se usarán a lo largo de la partida
     for( let i = 0; i < 40; i++ ) {
-        bullets.push( new Bullet( ) );
+        bullets.push( new Bullet( vm ) );
     }
     
     this.update = function() {
@@ -117,4 +117,9 @@ function InGame( ) {
 
         }
     }
+
+    this.getTank = function( number ) {
+        return tanks[ number ];
+    }
+
 }
