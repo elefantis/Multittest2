@@ -1,5 +1,4 @@
 function Tank( x, y, color, number, game ) {
-    
     this.x = x;
     this.y = y;
     this.w = 93;
@@ -14,6 +13,7 @@ function Tank( x, y, color, number, game ) {
     this.coolDownTimeFire1 = 30;
     this.cooldownFire1 = 0;
     this.game = game;
+    this.active = true;
 
     let curFrame = 0;
     let animationSpeed = 7;
@@ -23,6 +23,8 @@ function Tank( x, y, color, number, game ) {
     let nextY;
     
     this.move = function( directions ) {
+        if( !this.active ) return;
+
         this.directions = directions;
         if(  [ 0, 0, 0, 0 ].equals( this.directions ) === false ) {
             this.orientation = [ this.directions[ 0 ], this.directions[ 1 ], this.directions[ 2 ], this.directions[ 3 ] ];
@@ -38,13 +40,21 @@ function Tank( x, y, color, number, game ) {
     }
 
     this.fire = function() {
+        if( !this.active ) return;
         if( this.cooldownFire1 <= 0 ) {
             this.cooldownFire1 = this.coolDownTimeFire1;
-            this.game.createBullet( this.x + this.w / 2, this.y + this.h / 2, this.number, this.orientation );
+            this.game.createBullet( this.x + this.w / 2, this.y + this.h / 2 - 4, this.number, this.orientation );
         }
     }
 
+    this.receiveHit = function( ) {
+        this.active = false;
+        this.game.generateExplosion( this.x, this.y );
+        this.x = -999;
+    }
+
     this.update = function() {
+        if( !this.active ) return;
         // Reduce el tiempo de enfriamiento del arma
         if( this.cooldownFire1 > 0 ) {
             this.cooldownFire1--;
@@ -52,6 +62,7 @@ function Tank( x, y, color, number, game ) {
     }
 
     this.render = function() {
+        if( !this.active ) return;
         let number = 1;
         animationTime++;
         if( this.number === 0 ) number = 1;
@@ -72,6 +83,7 @@ function Tank( x, y, color, number, game ) {
         if( animationTime > animationSpeed ) {
             animationTime = 0;
             curFrame++;
+            // Activa el loop de la animación
             if( curFrame > 1 ) {
                 curFrame = 0;
             }

@@ -3,6 +3,7 @@ function InGame( ) {
     var tanks = [ ];
     var bullets = [ ];
     var commands = [ ];
+    var explosions = [ new Explosion( ), new Explosion( ) ]
     var directions = [ 0, 0, 0, 0 ];
     var myId = -1;
     const inputHandler = new InputHandler( this );
@@ -50,6 +51,9 @@ function InGame( ) {
             gameObject.render( );
         } );
         tanks.forEach( ( gameObject ) => {
+            gameObject.render( );
+        } );
+        explosions.forEach( ( gameObject ) => {
             gameObject.render( );
         } );
         img.onload = function() {
@@ -120,6 +124,13 @@ function InGame( ) {
 
     this.getTank = function( number ) {
         return tanks[ number ];
+    }
+
+    this.generateExplosion = function( x, y ) { 
+        let explosion = explosions.filter( ( e ) => { if( e.active === false ) return e; } )[ 0 ];
+        if( explosion ) {
+            explosion.explode( x, y );
+        }
     }
 
 }

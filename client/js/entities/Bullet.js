@@ -1,17 +1,16 @@
 function Bullet( game ) {
     this.x = 0;
     this.y = 0;
-    this.v = 12;
+    this.v = 36;
     this.r = 10;
     this.team = -1;
     this.enemy = -1;
     this.direction = [ 0, 0, 0, 0 ];
     this.active = false;
     this.duration = 0;
-    this.totalDuration = 30;
+    this.totalDuration = 8;
     this.game = game;
    
-
     var nextX;
     var nextY;
 
@@ -42,10 +41,10 @@ function Bullet( game ) {
         else this.enemy = this.game.getTank( 0 );
 
         // Verifica si hay colision con el tanque enemigo
-        console.log( hitBox.x, hitBox.y, hitBox.w, hitBox.h, this.enemy.x, this.enemy.y, this.enemy.w, this.enemy.h) 
         if( collision( hitBox.x, hitBox.y, hitBox.w, hitBox.h, 
             this.enemy.x, this.enemy.y, this.enemy.w, this.enemy.h) ) {
                 console.log( "ME PITIE UNO!!!");
+                this.enemy.receiveHit();
                 this.active = false;
         }
         
@@ -55,7 +54,7 @@ function Bullet( game ) {
          // Impide el rendereado si está inactiva
          if( !this.active ) return;
         // Dibuja la bala
-        ctx.fillStyle = "black";
+        ctx.fillStyle = "red";
         ctx.beginPath();
         ctx.arc( this.x, this.y, this.r, 0 ,2 * Math.PI );
         ctx.fill();
@@ -63,13 +62,11 @@ function Bullet( game ) {
     }
 
     this.fire = function( x, y, team, directions ) {
-        console.log( "disparo! ",x, y, team, directions)
         this.duration = this.totalDuration;
         this.x = x;
         this.y = y;
         this.team = team;
         this.directions = directions;
         this.active = true;
-        
     }
 }
