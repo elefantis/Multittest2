@@ -1,5 +1,7 @@
-function InGame( game ) {
-    var gameObjects = [ ];
+function InGame( ) {
+    const vm = this;
+    var tanks = [ ];
+    var bullets = [ ];
     var commands = [ ];
     var directions = [ 0, 0, 0, 0 ];
     var myId = -1;
@@ -7,18 +9,59 @@ function InGame( game ) {
     let img = new Image( );
     img.src = "./assets/Background/Background.png";
 
-
     const colors = [
         "#2d3999", "#9a1ba0", "#f08181", "#ebbb91"
     ];
-    
+
     // Envía el id de conexión al servidor
     socket.emit( "connectPlayer", { id: myId } )
+
+    // Genera las balas que se usarán a lo largo de la partida
+    for( let i = 0; i < 40; i++ ) {
+        bullets.push( new Bullet( ) );
+    }
     
+    this.update = function() {
+        // Procesa las entradas del teclado
+        commands = inputHandler.handleInput()
+        for( let i in commands ) {
+            commands[ i ].execute( );
+        }
+        
+        for( let i in tanks ) {
+            if( tanks[ i ].number == myId ) {
+                socket.emit( "movePlayer", { id: myId, directions: directions, x: tanks[i].x, y: tanks[i].y } );
+            }
+        }
+
+        directions = [ 0, 0, 0, 0 ];
+        // Ejecuta los procesos de actualización de los tanques
+        tanks.forEach( ( gameObject ) => {
+            gameObject.update( );
+        } );
+        bullets.forEach( ( gameObject ) => {
+            gameObject.update( );
+        } );
+    }
+
+    this.render = function( ) {
+        ctx.drawImage( img, 0, 0 );
+        bullets.forEach( ( gameObject ) => {
+            gameObject.render( );
+        } );
+        tanks.forEach( ( gameObject ) => {
+            gameObject.render( );
+        } );
+        img.onload = function() {
+            console.log(img)
+            ctx.drawImage( img, 220, 220 );
+        }
+    }
+
     // Añade a un jugador a la partida
     socket.on( "tanks", function( data ) {
-        gameObjects = data.map( ( object ) => {
-            return new Tank( object.x , object.y , colors[ object.id ], object.id );
+        tanks = data.map( ( object ) => {
+            return new Tank( object.x , object.y , colors[ object.id ], object.id, vm );
         } );
     } );
 
@@ -33,27 +76,35 @@ function InGame( game ) {
     } )
 
     socket.on( "moveTanks", function( data ) {
-        for( let i in gameObjects ) {
-            if( gameObjects[ i ].number == data.id ) {
-                gameObjects[ i ].move( data.directions );
+        for( let i in tanks ) {
+            if( tanks[ i ].number == data.id ) {
+                tanks[ i ].move( data.directions );
                 break;
             }
         }
     } );
 
-    this.update = function() {
-        // Procesa las entradas del teclado
-        commands = inputHandler.handleInput()
-        for( let i in commands ) {
-            commands[ i ].execute( );
-        }
-        
-        for( let i in gameObjects ) {
-            if( gameObjects[ i ].number == myId ) {
-                socket.emit( "movePlayer", { id: myId, directions: directions, x: gameObjects[i].x, y: gameObjects[i].y } );
+    this.fire = function( ) {
+        for( let i in tanks ) {
+            if( tanks[ i ].number == myId ) {
+                socket.emit( "fire", { id: myId, directions: tanks[i].directions, x: tanks[i].x, y: tanks[i].y } );
             }
         }
-        directions = [ 0, 0, 0, 0 ];
+    }
+
+    socket.on( "fire", function( data ) {
+        for( let i in tanks ) {
+            if( tanks[ i ].number == data.id ) {
+                tanks[ i ].fire( );
+            }
+        }
+    } );
+
+    this.createBullet = function( x, y, team, directions ) {
+        let bullet = bullets.filter( ( b ) => { if( b.active === false ) return b; } )[ 0 ];
+        if( bullet ) {
+            bullet.fire( x, y, team, directions );
+        }
     }
 
     // Envia al servidor la accion de mover al player indicado
@@ -61,14 +112,9 @@ function InGame( game ) {
         directions[ direction ] = 1;
     }
     
-    this.render = function( ) {
-        ctx.drawImage( img, 0, 0 );
-        gameObjects.forEach( ( gameObject ) => {
-            gameObject.render( );
-        } );
-        img.onload = function() {
-            console.log(img)
-            ctx.drawImage( img, 220, 220 );
+    this.collision = function( object ) {
+        for( let i in tanks ) {
+
         }
     }
 }

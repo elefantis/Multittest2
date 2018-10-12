@@ -61,6 +61,10 @@ io.on( "connection", function( socket ) {
     io.emit("moveTanks", data );
   } );
 
+  socket.on( "fire", ( data ) => {
+    io.emit("fire", data );
+  } );
+
   // Saca al player que se ha desconectado
   socket.on("disconnect", ( reason ) => {
     console.log("se desconectó el ", socket.id );

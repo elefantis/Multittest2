@@ -16,6 +16,22 @@ function AnimationManager() {
         "./assets/Vehicles/Tank_light/TL_A0025.png",
         "./assets/Vehicles/Tank_light/TL_A0028.png",
         "./assets/Vehicles/Tank_light/TL_A0029.png",
+        "./assets/Vehicles/Tank_light/Tank_light_B/TL_B0000.png",
+        "./assets/Vehicles/Tank_light/Tank_light_B/TL_B0001.png",
+        "./assets/Vehicles/Tank_light/Tank_light_B/TL_B0004.png",
+        "./assets/Vehicles/Tank_light/Tank_light_B/TL_B0005.png",
+        "./assets/Vehicles/Tank_light/Tank_light_B/TL_B0008.png",
+        "./assets/Vehicles/Tank_light/Tank_light_B/TL_B0009.png",
+        "./assets/Vehicles/Tank_light/Tank_light_B/TL_B0012.png",
+        "./assets/Vehicles/Tank_light/Tank_light_B/TL_B0013.png",
+        "./assets/Vehicles/Tank_light/Tank_light_B/TL_B0016.png",
+        "./assets/Vehicles/Tank_light/Tank_light_B/TL_B0017.png",
+        "./assets/Vehicles/Tank_light/Tank_light_B/TL_B0020.png",
+        "./assets/Vehicles/Tank_light/Tank_light_B/TL_B0021.png",
+        "./assets/Vehicles/Tank_light/Tank_light_B/TL_B0024.png",
+        "./assets/Vehicles/Tank_light/Tank_light_B/TL_B0025.png",
+        "./assets/Vehicles/Tank_light/Tank_light_B/TL_B0028.png",
+        "./assets/Vehicles/Tank_light/Tank_light_B/TL_B0029.png",
     ]
 
      var loadImage = function( url ) {
@@ -38,6 +54,14 @@ function AnimationManager() {
         tank1RightDown: [],
         tank1Down: [],
         tank1DownLeft: [],
+        tank2Left: [],
+        tank2LeftUp: [],
+        tank2Up: [],
+        tank2UpRight: [],
+        tank2Right: [],
+        tank2RightDown: [],
+        tank2Down: [],
+        tank2DownLeft: [],
     }
 
     Promise.all( [ 
@@ -57,7 +81,23 @@ function AnimationManager() {
         loadImage( paths[ 13 ] ),
         loadImage( paths[ 14 ] ),
         loadImage( paths[ 15 ] ),
-     ] ).then( ( [ r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12, r13, r14, r15, r16 ] ) => {
+        loadImage( paths[ 16 ]), 
+        loadImage( paths[ 17 ] ),
+        loadImage( paths[ 18 ] ),
+        loadImage( paths[ 19 ] ),
+        loadImage( paths[ 20 ] ),
+        loadImage( paths[ 21 ] ),
+        loadImage( paths[ 22 ] ),
+        loadImage( paths[ 23 ] ),
+        loadImage( paths[ 24 ] ),
+        loadImage( paths[ 25 ] ),
+        loadImage( paths[ 26 ] ),
+        loadImage( paths[ 27 ] ),
+        loadImage( paths[ 28 ] ),
+        loadImage( paths[ 29 ] ),
+        loadImage( paths[ 30 ] ),
+        loadImage( paths[ 31 ] ),
+     ] ).then( ( [ r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12, r13, r14, r15, r16, r17, r18, r19, r20, r21, r22, r23, r24, r25, r26, r27, r28, r29, r30, r31, r32 ] ) => {
         animations[ "tank1Left" ].push( r1 );
         animations[ "tank1Left" ].push( r2 );
         animations[ "tank1LeftUp" ].push( r3 );
@@ -74,6 +114,22 @@ function AnimationManager() {
         animations[ "tank1Down" ].push( r14 );
         animations[ "tank1DownLeft" ].push( r15 );
         animations[ "tank1DownLeft" ].push( r16 );
+        animations[ "tank2Left" ].push( r17 );
+        animations[ "tank2Left" ].push( r18 );
+        animations[ "tank2LeftUp" ].push( r19 );
+        animations[ "tank2LeftUp" ].push( r20 );
+        animations[ "tank2Up" ].push( r21 );
+        animations[ "tank2Up" ].push( r22 );
+        animations[ "tank2UpRight" ].push( r23 );
+        animations[ "tank2UpRight" ].push( r24 );
+        animations[ "tank2Right" ].push( r25 );
+        animations[ "tank2Right" ].push( r26 );
+        animations[ "tank2RightDown" ].push( r27 );
+        animations[ "tank2RightDown" ].push( r28 );
+        animations[ "tank2Down" ].push( r29 );
+        animations[ "tank2Down" ].push( r30 );
+        animations[ "tank2DownLeft" ].push( r31 );
+        animations[ "tank2DownLeft" ].push( r32 );
     } );
 
     this.getFrame = function( animation, frame) {
